@@ -300,6 +300,126 @@
   }
   .contact-links a:hover{transform:translateX(4px);}
 
+  /* ---------- Cinematic edits carousel ---------- */
+  .reel{margin-top:34px; outline:none;}
+  .reel-viewport{
+    position:relative;
+    display:grid;
+    border:1px solid rgba(255,255,255,0.12);
+    background:#000;
+    overflow:hidden;
+    touch-action:pan-y;
+  }
+  .reel-slide{
+    grid-area:1/1;
+    margin:0;
+    opacity:0;
+    visibility:hidden;
+    transform:translateX(calc(var(--dir,1) * 36px));
+    transition:opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1), visibility 0s linear 0.7s;
+  }
+  .reel-slide.is-active{
+    opacity:1; visibility:visible; transform:translateX(0);
+    transition:opacity 0.7s cubic-bezier(.16,1,.3,1) 0.08s, transform 0.9s cubic-bezier(.16,1,.3,1) 0.08s, visibility 0s;
+  }
+  .reel-slide.is-leaving{transform:translateX(calc(var(--dir,1) * -36px));}
+  .reel-media{position:relative; aspect-ratio:16/9; background:#000;}
+  .reel-media video{display:block; width:100%; height:100%; object-fit:cover; background:#000;}
+  .reel-play{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
+    border:0; padding:0; cursor:pointer;
+    background:linear-gradient(to top, rgba(0,0,0,0.45), rgba(0,0,0,0.08) 55%, rgba(0,0,0,0.15));
+    color:#F5F3EF;
+    transition:opacity 0.5s ease, background 0.5s ease;
+  }
+  .reel-play:hover{background:linear-gradient(to top, rgba(0,0,0,0.35), rgba(0,0,0,0.02) 55%, rgba(0,0,0,0.08));}
+  .reel-play-icon{
+    width:74px; height:74px; border-radius:50%;
+    border:1px solid rgba(245,243,239,0.7);
+    display:flex; align-items:center; justify-content:center;
+    backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+    background:rgba(0,0,0,0.12);
+    transition:transform 0.5s cubic-bezier(.16,1,.3,1), background 0.4s ease, border-color 0.4s ease;
+  }
+  .reel-play-icon svg{width:18px; height:18px; margin-left:3px;}
+  .reel-play:hover .reel-play-icon{transform:scale(1.07); background:rgba(245,243,239,0.14); border-color:#F5F3EF;}
+  .reel-play-label{font-size:10.5px; letter-spacing:0.28em; text-transform:uppercase; opacity:0.85;}
+  .reel-slide.is-playing .reel-play{opacity:0; pointer-events:none;}
+
+  .reel-bar{
+    margin-top:26px;
+    display:flex; align-items:center; justify-content:space-between; gap:24px;
+  }
+  .reel-meta{position:relative; min-height:34px; flex:1;}
+  .reel-caption{
+    position:absolute; left:0; top:50%;
+    display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;
+    opacity:0; transform:translateY(calc(-50% + 8px));
+    transition:opacity 0.5s ease, transform 0.6s cubic-bezier(.16,1,.3,1);
+    pointer-events:none; white-space:nowrap;
+  }
+  .reel-caption.is-active{opacity:1; transform:translateY(-50%); transition-delay:0.15s;}
+  .reel-num{font-family:'Cormorant',serif; font-size:15px; color:rgba(255,255,255,0.45); letter-spacing:0.08em;}
+  .reel-dash{width:22px; height:1px; background:rgba(255,255,255,0.3); align-self:center;}
+  .reel-title{font-family:'Cormorant',serif; font-weight:500; font-size:clamp(22px,2.6vw,28px); color:#F5F3EF; letter-spacing:0.02em;}
+  .reel-cat{font-size:10.5px; letter-spacing:0.26em; text-transform:uppercase; color:rgba(255,255,255,0.5);}
+
+  .reel-controls{display:flex; align-items:center; gap:22px;}
+  .reel-progress{display:flex; gap:8px;}
+  .reel-progress button{
+    width:28px; height:14px; padding:0; border:0; background:none; cursor:pointer; position:relative;
+  }
+  .reel-progress button::before{
+    content:''; position:absolute; left:0; right:0; top:50%; height:1px; background:rgba(255,255,255,0.22);
+  }
+  .reel-progress button::after{
+    content:''; position:absolute; left:0; right:0; top:50%; height:1px; background:#F5F3EF;
+    transform:scaleX(0); transform-origin:left; transition:transform 0.7s cubic-bezier(.16,1,.3,1);
+  }
+  .reel-progress button.is-active::after{transform:scaleX(1);}
+  .reel-arrows{display:flex; gap:10px;}
+  .reel-arrow{
+    position:relative; overflow:hidden;
+    width:50px; height:50px; border-radius:50%;
+    border:1px solid rgba(255,255,255,0.3);
+    background:transparent; color:#F5F3EF; cursor:pointer; padding:0;
+    transition:border-color 0.4s ease, color 0.4s ease, transform 0.3s ease;
+  }
+  .reel-arrow::before{
+    content:''; position:absolute; inset:0; border-radius:50%;
+    background:#F5F3EF; transform:scale(0);
+    transition:transform 0.5s cubic-bezier(.16,1,.3,1);
+  }
+  @media (hover:hover){
+    .reel-arrow:hover{border-color:#F5F3EF; color:var(--ink);}
+    .reel-arrow:hover::before{transform:scale(1);}
+    .reel-arrow.next:hover .a1{transform:translateX(26px); opacity:0;}
+    .reel-arrow.prev:hover .a1{transform:translateX(-26px); opacity:0;}
+    .reel-arrow:hover .a2{transform:translateX(0); opacity:1;}
+  }
+  .reel-arrow:active{transform:scale(0.94);}
+  .reel-arrow:focus-visible{outline:1px solid #F5F3EF; outline-offset:4px;}
+  .reel-arrow svg{
+    position:absolute; left:50%; top:50%; width:18px; height:18px; margin:-9px 0 0 -9px;
+    transition:transform 0.55s cubic-bezier(.16,1,.3,1), opacity 0.4s ease;
+  }
+  .reel-arrow .a2{opacity:0;}
+  .reel-arrow.next .a2{transform:translateX(-26px);}
+  .reel-arrow.prev .a2{transform:translateX(26px);}
+
+  @media (max-width:640px){
+    .reel-bar{flex-direction:column; align-items:flex-start; gap:18px; margin-top:20px;}
+    .reel-meta{width:100%; min-height:52px;}
+    .reel-caption{white-space:normal; gap:8px 12px;}
+    .reel-controls{width:100%; justify-content:space-between;}
+    .reel-arrow{width:44px; height:44px;}
+    .reel-play-icon{width:60px; height:60px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .reel-slide, .reel-caption{transform:none !important;}
+  }
+
   @media (prefers-reduced-motion: reduce){
     *{transition:none !important; animation:none !important;}
     .reveal, .divider, .divider img, .divider .line, .video-hero, .hero-caption{opacity:1 !important; transform:none !important;}
@@ -325,14 +445,57 @@
 
 <section id="work" class="reveal work-hero">
   <div class="work-hero-inner">
-    <span class="eyebrow-label">Selected work</span>
-    <h2 class="section-title">Real estate, cut with intent.</h2>
-    <p class="body-text muted">Click to play with sound.</p>
-    <div class="portfolio-video">
-      <video controls preload="metadata" poster="real-estate-poster.jpg" playsinline>
-        <source src="real-estate.mp4" type="video/mp4">
-        Your browser doesn't support embedded video.
-      </video>
+    <span class="eyebrow-label">Cinematic edits</span>
+    <h2 class="section-title">Cut with intent.</h2>
+
+    <div class="reel" data-reel tabindex="-1" aria-roledescription="carousel" aria-label="Cinematic edits">
+      <div class="reel-viewport">
+        <figure class="reel-slide is-active" aria-roledescription="slide" aria-label="1 of 2: Marrow House">
+          <div class="reel-media">
+            <video preload="none" poster="marrow-house-poster.jpg" playsinline>
+              <source src="MARROW_HOUSE.mp4" type="video/mp4">
+            </video>
+            <button class="reel-play" type="button" aria-label="Play Marrow House with sound">
+              <span class="reel-play-icon"><svg viewBox="0 0 18 18" fill="currentColor" aria-hidden="true"><path d="M3 1.5v15L16 9z"/></svg></span>
+              <span class="reel-play-label">Play with sound</span>
+            </button>
+          </div>
+        </figure>
+        <figure class="reel-slide" aria-roledescription="slide" aria-label="2 of 2: Mise en Place">
+          <div class="reel-media">
+            <video preload="none" poster="mise-en-place-poster.jpg" playsinline>
+              <source src="MISE_EN_PLACE.mp4" type="video/mp4">
+            </video>
+            <button class="reel-play" type="button" aria-label="Play Mise en Place with sound">
+              <span class="reel-play-icon"><svg viewBox="0 0 18 18" fill="currentColor" aria-hidden="true"><path d="M3 1.5v15L16 9z"/></svg></span>
+              <span class="reel-play-label">Play with sound</span>
+            </button>
+          </div>
+        </figure>
+      </div>
+
+      <div class="reel-bar">
+        <div class="reel-meta" aria-live="polite">
+          <div class="reel-caption is-active"><span class="reel-num">01</span><span class="reel-dash"></span><span class="reel-title">Marrow House</span><span class="reel-cat">Real Estate</span></div>
+          <div class="reel-caption"><span class="reel-num">02</span><span class="reel-dash"></span><span class="reel-title">Mise en Place</span><span class="reel-cat">Hospitality</span></div>
+        </div>
+        <div class="reel-controls">
+          <div class="reel-progress">
+            <button type="button" class="is-active" aria-label="Show Marrow House"></button>
+            <button type="button" aria-label="Show Mise en Place"></button>
+          </div>
+          <div class="reel-arrows">
+            <button type="button" class="reel-arrow prev" aria-label="Previous edit">
+              <svg class="a1" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M16 9H2M7.5 3.5L2 9l5.5 5.5"/></svg>
+              <svg class="a2" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M16 9H2M7.5 3.5L2 9l5.5 5.5"/></svg>
+            </button>
+            <button type="button" class="reel-arrow next" aria-label="Next edit">
+              <svg class="a1" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M2 9h14M10.5 3.5L16 9l-5.5 5.5"/></svg>
+              <svg class="a2" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M2 9h14M10.5 3.5L16 9l-5.5 5.5"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -457,6 +620,83 @@
       revealTargets.forEach(function(el){ observer.observe(el); });
     } else {
       revealTargets.forEach(function(el){ el.classList.add('is-visible'); });
+    }
+
+    /* ---------- Cinematic edits carousel ---------- */
+    var reel = document.querySelector('[data-reel]');
+    if(reel){
+      var slides = reel.querySelectorAll('.reel-slide');
+      var captions = reel.querySelectorAll('.reel-caption');
+      var dots = reel.querySelectorAll('.reel-progress button');
+      var viewport = reel.querySelector('.reel-viewport');
+      var current = 0;
+
+      function stopAll(){
+        slides.forEach(function(s){
+          var v = s.querySelector('video');
+          if(v && !v.paused){ v.pause(); }
+          if(v){ v.controls = false; }
+          s.classList.remove('is-playing');
+        });
+      }
+
+      function go(index, dir){
+        var n = slides.length;
+        index = (index + n) % n;
+        if(index === current) return;
+        if(dir === undefined){ dir = index > current ? 1 : -1; }
+        viewport.style.setProperty('--dir', dir);
+        stopAll();
+        var old = slides[current];
+        old.classList.add('is-leaving');
+        old.classList.remove('is-active');
+        setTimeout(function(){ old.classList.remove('is-leaving'); }, 900);
+        slides[index].classList.add('is-active');
+        captions[current].classList.remove('is-active');
+        captions[index].classList.add('is-active');
+        dots[current].classList.remove('is-active');
+        dots[index].classList.add('is-active');
+        current = index;
+      }
+
+      reel.querySelector('.reel-arrow.next').addEventListener('click', function(){ go(current + 1, 1); });
+      reel.querySelector('.reel-arrow.prev').addEventListener('click', function(){ go(current - 1, -1); });
+      dots.forEach(function(d, i){ d.addEventListener('click', function(){ go(i); }); });
+
+      slides.forEach(function(s){
+        var v = s.querySelector('video');
+        var btn = s.querySelector('.reel-play');
+        btn.addEventListener('click', function(){
+          s.classList.add('is-playing');
+          v.controls = true;
+          var p = v.play();
+          if(p && p.catch){ p.catch(function(){}); }
+        });
+        v.addEventListener('ended', function(){
+          v.controls = false;
+          v.load();
+          s.classList.remove('is-playing');
+        });
+      });
+
+      reel.addEventListener('keydown', function(e){
+        if(e.key === 'ArrowRight'){ go(current + 1, 1); }
+        if(e.key === 'ArrowLeft'){ go(current - 1, -1); }
+      });
+
+      var startX = null, startY = null;
+      viewport.addEventListener('touchstart', function(e){
+        startX = e.touches[0].clientX; startY = e.touches[0].clientY;
+      }, {passive:true});
+      viewport.addEventListener('touchend', function(e){
+        if(startX === null) return;
+        var dx = e.changedTouches[0].clientX - startX;
+        var dy = e.changedTouches[0].clientY - startY;
+        if(Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5){
+          go(current + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+        }
+        startX = null;
+      }, {passive:true});
     }
   });
 })();
