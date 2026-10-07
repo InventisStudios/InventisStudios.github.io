@@ -450,7 +450,7 @@
 
     <div class="reel" data-reel tabindex="-1" aria-roledescription="carousel" aria-label="Cinematic edits">
       <div class="reel-viewport">
-        <figure class="reel-slide is-active" aria-roledescription="slide" aria-label="1 of 2: Marrow House">
+        <figure class="reel-slide is-active" aria-roledescription="slide" aria-label="1 of 3: Marrow House">
           <div class="reel-media">
             <video preload="none" poster="marrow-house-poster.jpg" playsinline>
               <source src="MARROW_HOUSE.mp4" type="video/mp4">
@@ -461,12 +461,23 @@
             </button>
           </div>
         </figure>
-        <figure class="reel-slide" aria-roledescription="slide" aria-label="2 of 2: Mise en Place">
+        <figure class="reel-slide" aria-roledescription="slide" aria-label="2 of 3: Mise en Place">
           <div class="reel-media">
             <video preload="none" poster="mise-en-place-poster.jpg" playsinline>
               <source src="MISE_EN_PLACE.mp4" type="video/mp4">
             </video>
             <button class="reel-play" type="button" aria-label="Play Mise en Place with sound">
+              <span class="reel-play-icon"><svg viewBox="0 0 18 18" fill="currentColor" aria-hidden="true"><path d="M3 1.5v15L16 9z"/></svg></span>
+              <span class="reel-play-label">Play with sound</span>
+            </button>
+          </div>
+        </figure>
+        <figure class="reel-slide" aria-roledescription="slide" aria-label="3 of 3: After Dark">
+          <div class="reel-media">
+            <video preload="none" poster="after-dark-poster.jpg" playsinline>
+              <source src="AFTER_DARK.mp4" type="video/mp4">
+            </video>
+            <button class="reel-play" type="button" aria-label="Play After Dark with sound">
               <span class="reel-play-icon"><svg viewBox="0 0 18 18" fill="currentColor" aria-hidden="true"><path d="M3 1.5v15L16 9z"/></svg></span>
               <span class="reel-play-label">Play with sound</span>
             </button>
@@ -478,11 +489,13 @@
         <div class="reel-meta" aria-live="polite">
           <div class="reel-caption is-active"><span class="reel-num">01</span><span class="reel-dash"></span><span class="reel-title">Marrow House</span><span class="reel-cat">Real Estate</span></div>
           <div class="reel-caption"><span class="reel-num">02</span><span class="reel-dash"></span><span class="reel-title">Mise en Place</span><span class="reel-cat">Hospitality</span></div>
+          <div class="reel-caption"><span class="reel-num">03</span><span class="reel-dash"></span><span class="reel-title">After Dark</span><span class="reel-cat">Automotive</span></div>
         </div>
         <div class="reel-controls">
           <div class="reel-progress">
             <button type="button" class="is-active" aria-label="Show Marrow House"></button>
             <button type="button" aria-label="Show Mise en Place"></button>
+            <button type="button" aria-label="Show After Dark"></button>
           </div>
           <div class="reel-arrows">
             <button type="button" class="reel-arrow prev" aria-label="Previous edit">
